@@ -5,7 +5,9 @@ let dht = DHT.create(dhtPin, DHT.DHT11);
 
 let getInfo = function() {
   return JSON.stringify({
-    t: dht.getTemp(),
-    h: dht.getHumidity()
+    temp: dht.getTemp(),
+    hum: dht.getHumidity()
   });
 };
+
+print(value ? "Tick" : "Tock", getInfo());

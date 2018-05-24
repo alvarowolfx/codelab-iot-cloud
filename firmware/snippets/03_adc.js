@@ -4,8 +4,8 @@ ADC.enable(0);
 
 let getInfo = function() {
   return JSON.stringify({
-    t: dht.getTemp(),
-    h: dht.getHumidity(),
+    temp: dht.getTemp(),
+    hum: dht.getHumidity(),
     light: ADC.read(0)
   });
 };

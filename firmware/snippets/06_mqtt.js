@@ -1,13 +1,15 @@
 load("api_mqtt.js");
 
-MQTT.setEventHandler(function(conn, ev, edata) {
-  if (ev !== 0) print("MQTT event handler: got", ev);
-}, null);
-
 // Inside button handler
-let message = getInfo();
-let ok = MQTT.pub(topic, message, 1);
-print("Published:", ok, topic, "->", message);
+function publishData() {
+  let message = getInfo();
+  let ok = MQTT.pub(topic, message);
+  if (ok) {
+    print("Published", message);
+  } else {
+    print("Error publishing");
+  }
+}
 
 let configTopic = "/devices/" + Cfg.get("device.id") + "/config";
 
@@ -22,3 +24,11 @@ MQTT.sub(
   },
   null
 );
+
+MQTT.setEventHandler(function(conn, ev) {
+  if (ev === MQTT.EV_CONNACK) {
+    print("CONNECTED");
+    //isConnected = true;
+    //publishData();
+  }
+}, null);

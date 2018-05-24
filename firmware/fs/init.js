@@ -23,8 +23,8 @@ print("LED GPIO:", led, "button GPIO:", button);
 
 let getInfo = function() {
   return JSON.stringify({
-    t: dht.getTemp(),
-    h: dht.getHumidity(),
+    temp: dht.getTemp(),
+    hum: dht.getHumidity(),
     light: ADC.read(0),
     total_ram: Sys.total_ram(),
     free_ram: Sys.free_ram()
@@ -86,8 +86,12 @@ MQTT.sub(
   null
 );
 
-MQTT.setEventHandler(function(conn, ev, edata) {
-  if (ev !== 0) print("MQTT event handler: got", ev);
+MQTT.setEventHandler(function(conn, ev) {
+  if (ev === MQTT.EV_CONNACK) {
+    print("CONNECTED");
+    //isConnected = true;
+    //publishData();
+  }
 }, null);
 
 // Monitor network connectivity.
